@@ -1,0 +1,13 @@
+a utiliser date   mais calendar faisait pareil et en mieux
+
+j'ai ensuite cree mon objet au debut ce qui faisait qu'il ne 
+prennait qu'une seule fois la valeur
+
+j'ai ensuite simplifier mon code en attribuant une 
+variable output qui stock l'information de retour
+et je la lit a la fin de la boucle par le system.out.println 
+j'utilise un println car je peut avoir plusieur parametre 
+et je veux tout afficher sur une seule ligne 
+
+puis j'ai appliquer le premier if initial en condition du while 
+pour avoir un if en moins 
