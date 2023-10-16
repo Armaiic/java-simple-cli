@@ -35,9 +35,12 @@ public class Cli {
                 String envValue = System.getenv(varName);
                     if (envValue != null) {
                         output = envValue;
-                    } 
+                    } else {
+                output = "Command '" + command + "' not found";
+            }
+
                 }
-             else if (command.startsWith("echo")) {
+             else if (command.indexOf(" ") > 3) {
                 String arguments = command.substring(4); // "echo".length()
                 arguments = arguments.trim(); // Remove leading and trailing spaces
                 output = arguments;
