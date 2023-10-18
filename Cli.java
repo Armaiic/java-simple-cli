@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class Cli {
 
@@ -10,7 +11,7 @@ public class Cli {
         System.out.print("> ");
         String command;
 
-        while (!(command = scanner.nextLine()).equals("exit")) {
+        while (!(command = scanner.nextLine()).equals("exit") && !command.equals("logout")) {
             String output = "";
             String[] commandArg = command.trim().split(" ", 2);
 
@@ -41,9 +42,19 @@ public class Cli {
                         String envValue = System.getenv(commandArg[1]);
                         if (envValue != null) {
                             output = envValue;
+
+                        }
+                    } else {
+                        // Print all environment variables.
+                        Map < String, String > env = System.getenv();
+                        for (String envName: env.keySet()) {
+                            output += envName + "=" + env.get(envName) + "\n";
                         }
                     }
+
                     break;
+
+                case "print":
                 case "echo":
                     if (commandArg.length > 1) {
                         output = commandArg[1];
