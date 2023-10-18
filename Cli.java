@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.io.File;
 
 public class Cli {
 
@@ -53,7 +54,21 @@ public class Cli {
                     }
 
                     break;
-
+                case "ls":
+                    // List the contents of the specified directory.
+                    if (commandArg.length > 1) {
+                        String path = commandArg[1];
+                        File dir = new File(path);
+                        if (dir.isDirectory()) {
+                            File[] files = dir.listFiles();
+                            for (File file: files) {
+                                output += file.getName() + "\n";
+                            }
+                        }
+                    } else {
+                        output = "Not a directory";
+                    }
+                    break;
                 case "print":
                 case "echo":
                     if (commandArg.length > 1) {
