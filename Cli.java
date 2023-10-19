@@ -13,60 +13,60 @@ public class Cli {
         String command;
 
         while (!(command = scanner.nextLine()).equals("exit") && !command.equals("logout")) {
-            String output = "";
+            StringBuilder output = new StringBuilder();
             String[] commandArg = command.trim().split(" ", 2);
 
             // Replace the switch/case statement with if/else statements.
             if (commandArg[0].equals("date")) {
                 LocalDate currentDate = LocalDate.now();
-                output = currentDate.toString();
+                output.append(currentDate.toString());
             } else if (commandArg[0].equals("time")) {
                 LocalTime currentTime = LocalTime.now();
-                output = currentTime.toString();
+                output.append(currentTime.toString());
             } else if (commandArg[0].equals("datetime")) {
                 LocalDateTime currentDateTime = LocalDateTime.now();
-                output = currentDateTime.toString();
+                output.append(currentDateTime.toString());
             } else if (commandArg[0].equals("useraccount")) {
-                output = System.getProperty("user.name");
+                output.append(System.getProperty("user.name"));
             } else if (commandArg[0].equals("userhome")) {
-                output = System.getProperty("user.home");
+                output.append(System.getProperty("user.home"));
             } else if (commandArg[0].equals("os")) {
-                output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
+                 output.append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.version")).append(")");
             } else if (commandArg[0].equals("printenv")) {
                 if (commandArg.length > 1) {
                     String envValue = System.getenv(commandArg[1]);
                     if (envValue != null) {
-                        output = envValue;
+                        output.append(envValue);
                     }
                 } else {
                     // Print all environment variables.
                     Map < String, String > env = System.getenv();
                     for (String envName: env.keySet()) {
-                        output += envName + "=" + env.get(envName) + System.lineSeparator();
+                        output.append(envName).append("=").append(env.get(envName)).append(System.lineSeparator());
                     }
                 }
             } else if (commandArg[0].equals("ls")) {
-                output = "Not a directory";
+                output.append("Not a directory");
                 if (commandArg.length > 1) {
                     String path = commandArg[1];
                     File dir = new File(path);
                     if (dir.isDirectory()) {
                         File[] files = dir.listFiles();
-                        output = "";
+                        output.setLength(0);
                         for (File file: files) {
-                            output += file.getName() + System.lineSeparator();
+                            output.append(file.getName()).append(System.lineSeparator());
                         }
                     }
                 }
             } else if (commandArg[0].equals("print") || commandArg[0].equals("echo")) {
                 if (commandArg.length > 1) {
-                    output = commandArg[1];
+                    output.append(commandArg[1]);
                 }
             } else {
-                output = "Command '" + commandArg[0] + "' not found";
+                output.append("Command '").append(commandArg[0]).append("' not found");
             }
 
-            System.out.println(output);
+            System.out.println(output.toString());
             System.out.print("> ");
         }
 
