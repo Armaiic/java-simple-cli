@@ -16,68 +16,55 @@ public class Cli {
             String output = "";
             String[] commandArg = command.trim().split(" ", 2);
 
-            switch (commandArg[0]) {
-                case "date":
-                    LocalDate currentDate = LocalDate.now();
-                    output = currentDate.toString();
-                    break;
-                case "time":
-                    LocalTime currentTime = LocalTime.now();
-                    output = currentTime.toString();
-                    break;
-                case "datetime":
-                    LocalDateTime currentDateTime = LocalDateTime.now();
-                    output = currentDateTime.toString();
-                    break;
-                case "useraccount":
-                    output = System.getProperty("user.name");
-                    break;
-                case "userhome":
-                    output = System.getProperty("user.home");
-                    break;
-                case "os":
-                    output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
-                    break;
-                case "printenv":
-                    if (commandArg.length > 1) {
-                        String envValue = System.getenv(commandArg[1]);
-                        if (envValue != null) {
-                            output = envValue;
-
-                        }
-                    } else {
-                        // Print all environment variables.
-                        Map < String, String > env = System.getenv();
-                        for (String envName: env.keySet()) {
-                            output += envName + "=" + env.get(envName) + "\n";
+            // Replace the switch/case statement with if/else statements.
+            if (commandArg[0].equals("date")) {
+                LocalDate currentDate = LocalDate.now();
+                output = currentDate.toString();
+            } else if (commandArg[0].equals("time")) {
+                LocalTime currentTime = LocalTime.now();
+                output = currentTime.toString();
+            } else if (commandArg[0].equals("datetime")) {
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                output = currentDateTime.toString();
+            } else if (commandArg[0].equals("useraccount")) {
+                output = System.getProperty("user.name");
+            } else if (commandArg[0].equals("userhome")) {
+                output = System.getProperty("user.home");
+            } else if (commandArg[0].equals("os")) {
+                output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
+            } else if (commandArg[0].equals("printenv")) {
+                if (commandArg.length > 1) {
+                    String envValue = System.getenv(commandArg[1]);
+                    if (envValue != null) {
+                        output = envValue;
+                    }
+                } else {
+                    // Print all environment variables.
+                    Map < String, String > env = System.getenv();
+                    for (String envName: env.keySet()) {
+                        output += envName + "=" + env.get(envName) + "\n";
+                    }
+                }
+            } else if (commandArg[0].equals("ls")) {
+                // List the contents of the specified directory.
+                if (commandArg.length > 1) {
+                    String path = commandArg[1];
+                    File dir = new File(path);
+                    if (dir.isDirectory()) {
+                        File[] files = dir.listFiles();
+                        for (File file: files) {
+                            output += file.getName() + System.lineSeparator();
                         }
                     }
-
-                    break;
-                case "ls":
-                    // List the contents of the specified directory.
-                    if (commandArg.length > 1) {
-                        String path = commandArg[1];
-                        File dir = new File(path);
-                        if (dir.isDirectory()) {
-                            File[] files = dir.listFiles();
-                            for (File file: files) {
-                                output += file.getName() + "\n";
-                            }
-                        }
-                    } else {
-                        output = "Not a directory";
-                    }
-                    break;
-                case "print":
-                case "echo":
-                    if (commandArg.length > 1) {
-                        output = commandArg[1];
-                    }
-                    break;
-                default:
-                    output = "Command '" + commandArg[0] + "' not found";
-                    break;
+                } else {
+                    output = "Not a directory";
+                }
+            } else if (commandArg[0].equals("print") || commandArg[0].equals("echo")) {
+                if (commandArg.length > 1) {
+                    output = commandArg[1];
+                }
+            } else {
+                output = "Command '" + commandArg[0] + "' not found";
             }
 
             System.out.println(output);
