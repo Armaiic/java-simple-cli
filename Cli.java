@@ -10,15 +10,14 @@ public class Cli {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("> ");
-        String command; 
+        String command;
 
         while (!(command = scanner.nextLine()).equals("exit") && !command.equals("logout")) {
             String output = "";
             String[] commandArg = command.trim().split(" ", 2);
 
-            if (commandArg.length == 1 && commandArg[0].equals("ls")) {
-                output = "Command 'ls' missing argument";
-            } else if (commandArg[0].equals("date")) {
+            // Replace the switch/case statement with if/else statements.
+            if (commandArg[0].equals("date")) {
                 LocalDate currentDate = LocalDate.now();
                 output = currentDate.toString();
             } else if (commandArg[0].equals("time")) {
@@ -46,19 +45,20 @@ public class Cli {
                         output += envName + "=" + env.get(envName) + System.lineSeparator();
                     }
                 }
-            } else if (commandArg[0].equals("ls")) {
-                // List the contents of the specified directory.
-                String path = commandArg[1];
-                File dir = new File(path);
-                if (dir.isDirectory()) {
-                    File[] files = dir.listFiles();
-                    for (File file: files) {
-                        output += file.getName() + System.lineSeparator();
-                    }
-                } else {
-                    output = "Not a directory";
-                }
-            } else if (commandArg[0].equals("print") || commandArg[0].equals("echo")) {
+            }else if (commandArg[0].equals("ls")) {
+    output = "Not a directory";
+if (commandArg.length > 1 ) {
+        String path = commandArg[1];
+        File dir = new File(path);
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+                output = "";
+            for (File file : files) {
+                output += file.getName() + System.lineSeparator();
+            }
+        } 
+    }
+}else if (commandArg[0].equals("print") || commandArg[0].equals("echo")) {
                 if (commandArg.length > 1) {
                     output = commandArg[1];
                 }
