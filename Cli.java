@@ -14,62 +14,62 @@ public class Cli {
 
         while (!(command = scanner.nextLine()).equals("exit") && !command.equals("logout")) {
             String output = "";
-            String[] commandArg = command.trim().split(" ", 2);
 
-            // Replace the switch/case statement with if/else statements.
-            if (commandArg[0].equals("date")) {
+            CommandLine cmdLine = new CommandLine(command);
+
+            if (cmdLine.getCommandName().equals("date")) {
                 LocalDate currentDate = LocalDate.now();
                 output = currentDate.toString();
-            } else if (commandArg[0].equals("time")) {
+            } else if (cmdLine.getCommandName().equals("time")) {
                 LocalTime currentTime = LocalTime.now();
                 output = currentTime.toString();
-            } else if (commandArg[0].equals("datetime")) {
+            } else if (cmdLine.getCommandName().equals("datetime")) {
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 output = currentDateTime.toString();
-            } else if (commandArg[0].equals("useraccount")) {
+            } else if (cmdLine.getCommandName().equals("useraccount")) {
                 output = System.getProperty("user.name");
-            } else if (commandArg[0].equals("userhome")) {
+            } else if (cmdLine.getCommandName().equals("userhome")) {
                 output = System.getProperty("user.home");
-            } else if (commandArg[0].equals("os")) {
+            } else if (cmdLine.getCommandName().equals("os")) {
                 StringBuilder outputBuilders = new StringBuilder();
-               outputBuilders.append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.version")).append(")");
-               output = outputBuilders.toString();
-            } else if (commandArg[0].equals("printenv")) {
-                if (commandArg.length > 1) {
-                    String envValue = System.getenv(commandArg[1]);
+                outputBuilders.append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.version")).append(")");
+                output = outputBuilders.toString();
+            } else if (cmdLine.getCommandName().equals("printenv")) {
+                if (cmdLine.hasArgument()) {
+                    String envValue = System.getenv(cmdLine.getArgument());
                     if (envValue != null) {
                         output = envValue;
                     }
                 } else {
                     // Print all environment variables.
-                    Map < String, String > env = System.getenv();
+                    Map<String, String> env = System.getenv();
                     StringBuilder outputBuilder = new StringBuilder();
-                    for (String envName: env.keySet()) {
-                       outputBuilder.append(envName).append("=").append(env.get(envName)).append(System.lineSeparator());
+                    for (String envName : env.keySet()) {
+                        outputBuilder.append(envName).append("=").append(env.get(envName)).append(System.lineSeparator());
                     }
                     output = outputBuilder.toString();
                 }
-            }else if (commandArg[0].equals("ls")) {
-    output = "Not a directory";
-if (commandArg.length > 1 ) {
-        String path = commandArg[1];
-        File dir = new File(path);
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-                output = "";
-                StringBuilder outputBuilder = new StringBuilder();
-            for (File file : files) {
-                outputBuilder.append(file.getName()).append(System.lineSeparator());
-            }
-            output =outputBuilder.toString();
-        } 
-    }
-}else if (commandArg[0].equals("print") || commandArg[0].equals("echo")) {
-                if (commandArg.length > 1) {
-                    output = commandArg[1];
+            } else if (cmdLine.getCommandName().equals("ls")) {
+                output = "Not a directory";
+                if (cmdLine.hasArgument()) {
+                    String path = cmdLine.getArgument();
+                    File dir = new File(path);
+                    if (dir.isDirectory()) {
+                        File[] files = dir.listFiles();
+                        output = "";
+                        StringBuilder outputBuilder = new StringBuilder();
+                        for (File file : files) {
+                            outputBuilder.append(file.getName()).append(System.lineSeparator());
+                        }
+                        output = outputBuilder.toString();
+                    }
+                }
+            } else if (cmdLine.getCommandName().equals("print") || cmdLine.getCommandName().equals("echo")) {
+                if (cmdLine.hasArgument()) {
+                    output = cmdLine.getArgument();
                 }
             } else {
-                output = "Command '" + commandArg[0] + "' not found";
+                output = "Command '" + cmdLine.getCommandName() + "' not found";
             }
 
             System.out.println(output);
