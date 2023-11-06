@@ -36,7 +36,10 @@ public class Cli {
                 output = Commands.ls(cmdLine.getArgument());
             } else if (commandName.equals("print") || commandName.equals("echo")) {
                 output = Commands.print(cmdLine.getArgument());
-            } else {
+            }  else if (commandName.equals("cat")) {
+               output = Commands.cat(cmdLine.getArgument());
+               
+            }else {
                 output = "Command '" + cmdLine.getCommandName() + "' not found";
             }
 

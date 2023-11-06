@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.io.File;
+import java.io.FileReader;
 
  public class Commands {
 
@@ -67,4 +68,29 @@ import java.io.File;
     public static String echo(String argument) {
         return argument;
     }
-}
+       public static String cat(String path) {
+        if (path == null || path.isEmpty()) {
+            return "Please specify a path to a text file to read";
+        }
+
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                return "Error reading file";
+            }
+
+            Scanner scanner = new Scanner(new FileReader(file));
+            StringBuilder output = new StringBuilder();
+            int lineNumber = 1;
+            while (scanner.hasNextLine()) {
+                output.append(lineNumber).append(". ").append(scanner.nextLine()).append("\n");
+                lineNumber++;
+            }
+            scanner.close();
+
+            return output.toString();
+        } catch (Exception e) {
+            return "Error reading file";
+        }
+    }
+ }
