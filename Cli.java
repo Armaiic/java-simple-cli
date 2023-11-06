@@ -13,61 +13,29 @@ public class Cli {
         String command;
 
         while (!(command = scanner.nextLine()).equals("exit") && !command.equals("logout")) {
-            String output = "";
+            String output;
 
             CommandLine cmdLine = new CommandLine(command);
+            String commandName = cmdLine.getCommandName();
 
-            if (cmdLine.getCommandName().equals("date")) {
-                LocalDate currentDate = LocalDate.now();
-                output = currentDate.toString();
-            } else if (cmdLine.getCommandName().equals("time")) {
-                LocalTime currentTime = LocalTime.now();
-                output = currentTime.toString();
-            } else if (cmdLine.getCommandName().equals("datetime")) {
-                LocalDateTime currentDateTime = LocalDateTime.now();
-                output = currentDateTime.toString();
-            } else if (cmdLine.getCommandName().equals("useraccount")) {
-                output = System.getProperty("user.name");
-            } else if (cmdLine.getCommandName().equals("userhome")) {
-                output = System.getProperty("user.home");
-            } else if (cmdLine.getCommandName().equals("os")) {
-                StringBuilder outputBuilders = new StringBuilder();
-                outputBuilders.append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.version")).append(")");
-                output = outputBuilders.toString();
-            } else if (cmdLine.getCommandName().equals("printenv")) {
-                if (cmdLine.hasArgument()) {
-                    String envValue = System.getenv(cmdLine.getArgument());
-                    if (envValue != null) {
-                        output = envValue;
-                    }
-                } else {
-                    // Print all environment variables.
-                    Map<String, String> env = System.getenv();
-                    StringBuilder outputBuilder = new StringBuilder();
-                    for (String envName : env.keySet()) {
-                        outputBuilder.append(envName).append("=").append(env.get(envName)).append(System.lineSeparator());
-                    }
-                    output = outputBuilder.toString();
-                }
-            } else if (cmdLine.getCommandName().equals("ls")) {
-                output = "Not a directory";
-                if (cmdLine.hasArgument()) {
-                    String path = cmdLine.getArgument();
-                    File dir = new File(path);
-                    if (dir.isDirectory()) {
-                        File[] files = dir.listFiles();
-                        output = "";
-                        StringBuilder outputBuilder = new StringBuilder();
-                        for (File file : files) {
-                            outputBuilder.append(file.getName()).append(System.lineSeparator());
-                        }
-                        output = outputBuilder.toString();
-                    }
-                }
-            } else if (cmdLine.getCommandName().equals("print") || cmdLine.getCommandName().equals("echo")) {
-                if (cmdLine.hasArgument()) {
-                    output = cmdLine.getArgument();
-                }
+            if (commandName.equals("date")) {
+                output = Commands.date();
+            } else if (commandName.equals("time")) {
+                output = Commands.time();
+            } else if (commandName.equals("datetime")) {
+                output = Commands.datetime();
+            } else if (commandName.equals("useraccount")) {
+                output = Commands.useraccount();
+            } else if (commandName.equals("userhome")) {
+                output = Commands.userhome();
+            } else if (commandName.equals("os")) {
+                output = Commands.os();
+            } else if (commandName.equals("printenv")) {
+                output = Commands.printenv(cmdLine.getArgument());
+            } else if (commandName.equals("ls")) {
+                output = Commands.ls(cmdLine.getArgument());
+            } else if (commandName.equals("print") || commandName.equals("echo")) {
+                output = Commands.print(cmdLine.getArgument());
             } else {
                 output = "Command '" + cmdLine.getCommandName() + "' not found";
             }
