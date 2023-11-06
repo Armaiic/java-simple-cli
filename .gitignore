@@ -1,0 +1,4 @@
+#  Hide files  java #
+*.java
+ #Hide log files#
+*.log
