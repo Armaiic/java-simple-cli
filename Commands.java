@@ -4,10 +4,11 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Commands {
-
+    
     public static String executeCommand(CommandLine cmdLine) {
         String commandName = cmdLine.getCommandName();
 
@@ -104,23 +105,21 @@ public class Commands {
         }
 
         try {
-            File file = new File(path);
-            if (!file.exists()) {
-                return "Error reading file";
-            }
+            FileReader read1 = new FileReader(path);
+            BufferedReader bufferedReader = new BufferedReader(read1);
 
-            Scanner scanner = new Scanner(new FileReader(file));
-            StringBuilder output = new StringBuilder();
-            int lineNumber = 1;
-            while (scanner.hasNextLine()) {
-                output.append(lineNumber).append(". ").append(scanner.nextLine()).append("\n");
-                lineNumber++;
+            StringBuilder outputBuilder = new StringBuilder();
+            int lineNumberCounter = 1;
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                outputBuilder.append(lineNumberCounter).append(". ").append(line).append("\n");
+                lineNumberCounter++;
             }
-            scanner.close();
+            bufferedReader.close();
 
-            return output.toString();
+            return outputBuilder.toString();
         } catch (Exception e) {
             return "Error reading file";
         }
-    }
+    }          
 }
