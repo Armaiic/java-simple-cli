@@ -18,30 +18,7 @@ public class Cli {
             CommandLine cmdLine = new CommandLine(command);
             String commandName = cmdLine.getCommandName();
 
-            if (commandName.equals("date")) {
-                output = Commands.date();
-            } else if (commandName.equals("time")) {
-                output = Commands.time();
-            } else if (commandName.equals("datetime")) {
-                output = Commands.datetime();
-            } else if (commandName.equals("useraccount")) {
-                output = Commands.useraccount();
-            } else if (commandName.equals("userhome")) {
-                output = Commands.userhome();
-            } else if (commandName.equals("os")) {
-                output = Commands.os();
-            } else if (commandName.equals("printenv")) {
-                output = Commands.printenv(cmdLine.getArgument());
-            } else if (commandName.equals("ls")) {
-                output = Commands.ls(cmdLine.getArgument());
-            } else if (commandName.equals("print") || commandName.equals("echo")) {
-                output = Commands.print(cmdLine.getArgument());
-            }  else if (commandName.equals("cat")) {
-               output = Commands.cat(cmdLine.getArgument());
-               
-            }else {
-                output = "Command '" + cmdLine.getCommandName() + "' not found";
-            }
+            output = Commands.executeCommand(cmdLine);
 
             System.out.println(output);
             System.out.print("> ");

@@ -6,7 +6,35 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileReader;
 
- public class Commands {
+public class Commands {
+
+    public static String executeCommand(CommandLine cmdLine) {
+        String commandName = cmdLine.getCommandName();
+
+        if (commandName.equals("date")) {
+            return date();
+        } else if (commandName.equals("time")) {
+            return time();
+        } else if (commandName.equals("datetime")) {
+            return datetime();
+        } else if (commandName.equals("useraccount")) {
+            return useraccount();
+        } else if (commandName.equals("userhome")) {
+            return userhome();
+        } else if (commandName.equals("os")) {
+            return os();
+        } else if (commandName.equals("printenv")) {
+            return printenv(cmdLine.getArgument());
+        } else if (commandName.equals("ls")) {
+            return ls(cmdLine);
+        } else if (commandName.equals("print") || commandName.equals("echo")) {
+            return echo(cmdLine.getArgument());
+        } else if (commandName.equals("cat")) {
+            return cat(cmdLine.getArgument());
+        } else {
+            return "Command '" + cmdLine.getCommandName() + "' not found";
+        }
+    }
 
     public static String date() {
         return LocalDate.now().toString();
@@ -45,7 +73,8 @@ import java.io.FileReader;
         }
     }
 
-    public static String ls(String argument) {
+    public static String ls(CommandLine cmdLine) {
+        String argument = cmdLine.getArgument();
         if (argument != null) {
             String path = argument;
             File dir = new File(path);
@@ -61,14 +90,15 @@ import java.io.FileReader;
         return "Not a directory";
     }
 
-    public static String print(String argument) {
+    public static String echo(String argument) {
+        if (argument == null) {
+        return ""; // Return an empty string
+    } else {
         return argument;
+    }
     }
 
-    public static String echo(String argument) {
-        return argument;
-    }
-       public static String cat(String path) {
+    public static String cat(String path) {
         if (path == null || path.isEmpty()) {
             return "Please specify a path to a text file to read";
         }
@@ -93,4 +123,4 @@ import java.io.FileReader;
             return "Error reading file";
         }
     }
- }
+}
